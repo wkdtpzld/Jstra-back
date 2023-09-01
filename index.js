@@ -1,10 +1,17 @@
+import UserService from "./src/user/Service/userService";
+
 require("dotenv").config();
 import schema from "./src/schema.js";
 import {ApolloServer} from "apollo-server"
 
 
 const index = new ApolloServer({
-    schema
+    schema,
+    context: (async ({req}) => {
+        return {
+            user: await UserService.getUser(req.headers["jwt-token"]),
+        }
+    })
 });
 
 const PORT = process.env.PORT;
