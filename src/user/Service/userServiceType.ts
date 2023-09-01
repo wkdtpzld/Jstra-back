@@ -4,5 +4,6 @@ export interface EditUserIProps {
     username?: String;
     email?: String;
     password?: String;
-    token: String;
+    avatar: any;
+    bio: String;
 }

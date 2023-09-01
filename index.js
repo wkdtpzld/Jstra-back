@@ -1,18 +1,32 @@
-import UserService from "./src/user/Service/userService";
+import {resolvers, typeDefs} from "./src/schema";
 
 require("dotenv").config();
-import schema from "./src/schema.js";
-import {ApolloServer} from "apollo-server"
-
-
-const index = new ApolloServer({
-    schema,
-    context: (async ({req}) => {
-        return {
-            user: await UserService.getUser(req.headers["jwt-token"]),
-        }
-    })
-});
+import express from "express";
+import logger from "morgan";
+import { ApolloServer } from "apollo-server-express";
+import UserService from "./src/user/Service/userService";
+import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
 
 const PORT = process.env.PORT;
-index.listen().then(() => console.log(`server is running on http://localhost:${PORT}/`));
+
+const server = new ApolloServer({
+    resolvers,
+    typeDefs,
+    context: async ({ req }) => {
+        return {
+            user: await UserService.getUser(req.headers['jwt-token']),
+        };
+    },
+});
+
+const app = express();
+app.use("/static", express.static("uploads"));
+// app.use(logger("tiny"));
+
+server.start().then(async res => {
+    app.use(graphqlUploadExpress());
+    server.applyMiddleware({ app, path : '/'});
+    app.listen({ port:PORT }, () =>
+        console.log(`🚀Server is running on http://localhost:${PORT} ✅`)
+    );
+});

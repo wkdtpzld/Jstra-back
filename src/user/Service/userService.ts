@@ -48,7 +48,7 @@ class UserService {
         return null;
     }
 
-    async editUser(firstName, lastName, username, email, hashPassword, user) {
+    async editUser(firstName, lastName, username, email, hashPassword, bio, user) {
         const newUser = await client.user.update({where: {
                 id: user.id,
             }, data: {
@@ -56,6 +56,7 @@ class UserService {
                 lastName,
                 username,
                 email,
+                bio,
                 ...(hashPassword && {password: hashPassword})
             }});
         if (!newUser) {
