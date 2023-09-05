@@ -24,7 +24,7 @@ class UserService {
 
     async createUserAndValidation(firstName, lastName, username, email, password) {
         const hashPassword = await bcrypt.hash(password, 10, null);
-        const user = client.user.create({
+        const user = await client.user.create({
             data: {
                 firstName,
                 lastName,
@@ -33,6 +33,7 @@ class UserService {
                 password: hashPassword
             }
         });
+        console.log(user)
         if (!user) {
             return {
                 ok: false,
@@ -82,9 +83,15 @@ class UserService {
         return user;
     }
 
-    async protectedResolver(user) {
+    async findUser(targetId: number) {
+        const user = await client.user.findUnique({
+            where: {
+                id: targetId
+            }
+        });
+
         if (!user) {
-            throw new Error("로그인 되지 않은 유저입니다.")
+            throw new Error("유저를 찾지 못하였습니다.")
         }
     }
 }

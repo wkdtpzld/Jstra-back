@@ -11,7 +11,6 @@ export default {
                 { user }
             ) => {
                 try {
-                    console.log(avatar)
                     const hashPassword = await UserService.checkUserPassword(newPassword);
                     return await UserService.editUser(firstName, lastName, username, email, hashPassword, bio, user);
                 } catch (e) {
