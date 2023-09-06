@@ -6,7 +6,7 @@ interface ISeeFollowingProps {
     page: number
 }
 
-export default {
+const resolvers = {
     Query: {
         seeFollowing: async (_, { userId, cursor }: ISeeFollowingProps) => {
             await UserService.findUser(userId);
@@ -26,3 +26,5 @@ export default {
         }
     }
 }
+
+export default resolvers;

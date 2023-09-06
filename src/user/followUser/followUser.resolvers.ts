@@ -3,7 +3,7 @@ import {User} from "@prisma/client";
 import client from "../../client";
 import UserService from "../Service/userService";
 
-export default {
+const resolvers = {
     Mutation: {
         followUser: protectResolver(async(_, { targetId }: {targetId: number}, { user }: {user: User} ) => {
 
@@ -33,3 +33,5 @@ export default {
         })
     }
 }
+
+export default resolvers;

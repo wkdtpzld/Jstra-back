@@ -1,7 +1,8 @@
 import {User} from "@prisma/client";
 import UserService from "../Service/userService";
+import {Resolvers} from "../../index";
 
-export default {
+const resolvers: Resolvers = {
 
     Mutation: {
         createAccount: async (_, {
@@ -26,3 +27,5 @@ export default {
         },
     }
 }
+
+export default resolvers;

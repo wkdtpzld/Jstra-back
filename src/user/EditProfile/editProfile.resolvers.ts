@@ -1,11 +1,12 @@
 import UserService from "../Service/userService";
 import {EditUserIProps} from "../Service/userServiceType";
 import {protectResolver} from "../users.utils";
+import {Resolvers} from "../../index";
 
-export default {
+const resolvers: Resolvers = {
     Mutation: {
         editProfile: protectResolver(
-            async (
+             async (
                 _,
                 { firstName, lastName, username, email, password: newPassword, bio, avatar}: EditUserIProps,
                 { user }
@@ -23,3 +24,5 @@ export default {
         )
     }
 }
+
+export default resolvers;

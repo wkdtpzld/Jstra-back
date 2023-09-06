@@ -4,7 +4,7 @@ import * as Jwt from "jsonwebtoken";
 import process from "process";
 import * as bcrypt from "bcrypt";
 
-export default {
+const resolvers = {
     Mutation : {
         login: async(_, { username, password }) => {
             // find user with args.username
@@ -31,3 +31,5 @@ export default {
         }
     }
 }
+
+export default resolvers;

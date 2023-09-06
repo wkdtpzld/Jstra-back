@@ -1,7 +1,7 @@
 import {User} from "@prisma/client";
 import client from "../../client";
 
-export default {
+const resolvers = {
     Query: {
         seeProfile: (_, {username}: User) => {
             return client.user.findUnique({
@@ -12,3 +12,5 @@ export default {
         }
     },
 }
+
+export default resolvers;

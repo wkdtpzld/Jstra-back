@@ -1,5 +1,6 @@
+import {Resolver} from "../index";
 
-export const protectResolver = (resolver) => (root, args, context, info) => {
+export const protectResolver = (resolver: Resolver) => (root, args, context, info) => {
     if (!context.user) {
         return {
             ok: false,
