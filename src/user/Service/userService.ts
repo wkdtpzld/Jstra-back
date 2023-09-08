@@ -4,6 +4,10 @@ import * as Jwt from "jsonwebtoken";
 import process from "process";
 class UserService {
 
+    async sayHello() {
+        console.log('Hello world');
+    }
+
     async isExistUser(username, email) {
         const isExistUser = await client.user.findFirst({
             where: {
