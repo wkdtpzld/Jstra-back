@@ -39,6 +39,13 @@ export default {
             }).following({where: { id } });
 
             return exists?.length !== 0;
+        },
+        photos: ({id}, { cursor }) => {
+            client.user.findUnique({ where: { id }}).photos({
+                take: 5,
+                skip: cursor ? 1 : 0,
+                ...(cursor && {cursor: { id: cursor }})
+            })
         }
     }
 }

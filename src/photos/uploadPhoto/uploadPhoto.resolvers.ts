@@ -5,7 +5,7 @@ import PhotoService from "../Service/photoService";
 export default {
     Mutation: {
         uploadPhoto: protectResolver(async (_, {file, caption}, { user }) => {
-            const hashtagObj = PhotoService.filterHashtags(caption);
+            const hashtagObj = PhotoService.processHashtags(caption);
 
             return client.photo.create({
                 data: {
@@ -16,7 +16,7 @@ export default {
                             id: user.id
                         }
                     },
-                    ...(hashtagObj.length && {
+                    ...(hashtagObj && hashtagObj.length && {
                         hashtags: {
                             connectOrCreate: hashtagObj
                         }

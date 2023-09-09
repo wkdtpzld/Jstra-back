@@ -15,6 +15,7 @@ export default gql`
         totalFollowers: Int!
         isFollowing: Boolean!
         isMe: Boolean!
+        photos(cursor: Int): [Photo]
         createdAt: String!
         updatedAt: String!
     }
