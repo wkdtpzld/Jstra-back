@@ -8,7 +8,7 @@ const resolvers: Resolvers = {
     Mutation: {
         editPhoto: protectResolver(async (_, {id, caption}, { user }) => {
             try {
-                const oldPhoto: (Photo & { hashtags: { hashtag: string }[] }) | null = await PhotoService.checkPhoto(id, user);
+                const oldPhoto: (Photo & { hashtags: { hashtag: string }[] }) | null = await PhotoService.checkPhotoWithHashtag(id, user);
                 const newHashtags = PhotoService.processHashtags(caption);
 
                 const newPhoto = await client.photo.update({

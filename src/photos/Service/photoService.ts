@@ -1,10 +1,18 @@
-import {Photo, User} from "@prisma/client";
+import {Like, Photo, User} from "@prisma/client";
 import client from "../../client";
 
 interface ConnectHashtagProps {
     where: any,
     create: any
 }
+
+interface ILikeStateUpdateProps {
+    like: Like;
+    user: User;
+    photo: Photo;
+    id: number;
+}
+
 class PhotoService {
     processHashtags(caption: string): ConnectHashtagProps[] | null {
         if (caption) {
@@ -15,7 +23,21 @@ class PhotoService {
         }
     }
 
-    async checkPhoto(id: Number, user: User) {
+    async checkPhoto(id: Number): Promise<Photo> {
+        const photo = await client.photo.findUnique({
+            where: {
+                id,
+            },
+        });
+
+        if (!photo) {
+            throw new Error("접근 불가능한 영역입니다.")
+        }
+
+        return photo;
+    }
+
+    async checkPhotoWithHashtag(id: Number, user: User) {
         const photo = await client.photo.findFirst({
             where: {
                 id,
@@ -34,6 +56,34 @@ class PhotoService {
             throw new Error("접근 불가능한 영역입니다.")
         }
         return photo
+    }
+
+    async likeStateUpdate({like, user, photo, id}: ILikeStateUpdateProps) {
+        if (like) {
+            await client.like.delete({
+                where: {
+                    photoId_userId: {
+                        userId: user.id,
+                        photoId: id
+                    }
+                }
+            });
+        } else {
+            await client.like.create({
+                data: {
+                    user: {
+                        connect: {
+                            id: user.id
+                        }
+                    },
+                    photo: {
+                        connect: {
+                            id: photo.id
+                        }
+                    }
+                }
+            })
+        }
     }
 }
 

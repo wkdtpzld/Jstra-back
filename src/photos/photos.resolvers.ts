@@ -17,6 +17,13 @@ const resolvers: Resolvers = {
                     }
                 }
             })
+        },
+        likes: ({id}) => {
+            return client.like.count({
+                where: {
+                    photoId: id
+                }
+            })
         }
     },
     Hashtag: {
