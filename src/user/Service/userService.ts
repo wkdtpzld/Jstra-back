@@ -33,7 +33,6 @@ class UserService {
                 password: hashPassword
             }
         });
-        console.log(user)
         if (!user) {
             return {
                 ok: false,
@@ -49,7 +48,7 @@ class UserService {
         return null;
     }
 
-    async editUser(firstName, lastName, username, email, hashPassword, bio, user) {
+    async editUser(firstName, lastName, username, email, hashPassword, bio, user, avatarUrl) {
         const newUser = await client.user.update({where: {
                 id: user.id,
             }, data: {
@@ -58,7 +57,8 @@ class UserService {
                 username,
                 email,
                 bio,
-                ...(hashPassword && {password: hashPassword})
+                ...(hashPassword && {password: hashPassword}),
+                ...(avatarUrl && { avatar: avatarUrl })
             }});
         if (!newUser) {
             return {
