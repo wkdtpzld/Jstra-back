@@ -2,9 +2,13 @@ import {Resolver} from "../index";
 
 export const protectResolver = (resolver: Resolver) => (root, args, context, info) => {
     if (!context.user) {
+        const isQuery = info.operation.operation === "query";
+        if (isQuery) {
+            return null
+        }
         return {
             ok: false,
-            error: "로그인 되지 않은 상태입니다. 상태를 확인해주세요."
+            error: "인가되지 않은 행동입니다."
         }
     }
     return resolver(root, args, context, info);

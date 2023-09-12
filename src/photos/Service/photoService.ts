@@ -28,6 +28,9 @@ class PhotoService {
             where: {
                 id,
             },
+            select: {
+                id: true
+            }
         });
 
         if (!photo) {

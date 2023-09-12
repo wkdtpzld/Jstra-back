@@ -24,6 +24,11 @@ const resolvers: Resolvers = {
                     photoId: id
                 }
             })
+        },
+        comments: ({id}) => client.comment.count({ where: { photoId: id }}),
+        isMine: ({userId}, _, {user}) => {
+            if (!user) return false;
+            return userId === user.id;
         }
     },
     Hashtag: {
