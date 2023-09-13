@@ -1,4 +1,3 @@
-import morgan from "morgan";
 import {createServer, Server} from "http";
 import express, {Express} from "express";
 import {ApolloServer, ExpressContext} from "apollo-server-express";
@@ -8,8 +7,6 @@ import { ConnectionContext, SubscriptionServer } from "subscriptions-transport-w
 import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
 import schema from "./schema";
 require("dotenv").config();
-const PORT = process.env.PORT;
-
 
 interface ConnectionParams {
     token?: string;
@@ -19,7 +16,6 @@ interface ConnectionParams {
 const startServer = async (): Promise<void> => {
     const app: Express = express();
     app.use(graphqlUploadExpress());
-    // app.use(morgan("dev"));
     app.use("/uploads", express.static("uploads"));
 
     const httpServer: Server = createServer(app);
@@ -30,10 +26,10 @@ const startServer = async (): Promise<void> => {
             subscribe,
             async onConnect({ token }: ConnectionParams, webSocket: any, context: ConnectionContext) {
                 if (token === undefined) {
-                    throw new Error("토큰이 존재하지 않기 때문에 Subscription Server에 연결할 수 없습니다.");
+                    throw new Error();
                 }
-                const foundUser = await UserService.getUser(token);
-                return { loggedInUser: foundUser };
+                const user = await UserService.getUser(token);
+                return { user };
             },
             onDisconnect(webSocket: any, context: ConnectionContext) {},
         },
@@ -42,8 +38,8 @@ const startServer = async (): Promise<void> => {
     const apolloServer: ApolloServer<ExpressContext> = new ApolloServer({
         schema,
         context: async ({ req }) => {
-            const foundUser = await UserService.getUser(req.headers.token);
-            return { user: foundUser };
+            const user = await UserService.getUser(req.headers.token);
+            return { user };
         },
         introspection: true,
         plugins: [

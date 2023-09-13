@@ -9,6 +9,22 @@ interface ICreateOrFindRoomProps {
 }
 class MessageService {
 
+    async findRoomById(roomId: number, userId: number) {
+        return client.room.findUnique({
+            where: {
+                id: roomId,
+                users: {
+                    some: {
+                        id: userId
+                    }
+                }
+            },
+            select: {
+                id: true
+            }
+        });
+    }
+
     async createOrFindRoom({roomId, userId, user}: ICreateOrFindRoomProps): Promise<Room | null> {
         let result = null;
         if (userId) {
