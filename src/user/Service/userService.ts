@@ -71,11 +71,11 @@ class UserService {
         }
     }
 
-    async getUser(token: String) {
-        if (!token) {
+    async getUser(token: string[] | string | undefined) {
+        if (!token || typeof token !== "string") {
             return null;
         }
-        const { id } = await Jwt.verify(token, process.env.SECRET_KEY);
+        const {id}: any = await Jwt.verify(token, process.env.SECRET_KEY);
         const user = await client.user.findUnique({where: { id }});
         if (!user) {
             return null;

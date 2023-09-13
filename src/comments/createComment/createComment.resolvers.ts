@@ -27,7 +27,7 @@ const resolvers: Resolvers = {
                 return {
                     ok: true
                 }
-            } catch (e) {
+            } catch (e: any) {
                 return {
                     ok: false,
                     error: e.message

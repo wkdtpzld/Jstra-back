@@ -2,7 +2,7 @@ import {Resolvers} from "../../index";
 import client from "../../client";
 
 interface IHashTagProps {
-    hashtag: String
+    hashtag: string
     page?: Number
 }
 

@@ -1,12 +1,10 @@
-import {resolvers, typeDefs} from "./src/schema";
-
-require("dotenv").config();
+import {createServer} from "http";
 import express from "express";
-import logger from "morgan";
+import {resolvers, typeDefs} from "./schema";
 import { ApolloServer } from "apollo-server-express";
-import UserService from "./src/user/Service/userService";
+import UserService from "./user/Service/userService";
 import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
-
+require("dotenv").config();
 const PORT = process.env.PORT;
 
 const server = new ApolloServer({
@@ -21,6 +19,7 @@ const server = new ApolloServer({
 
 const app = express();
 app.use("/static", express.static("uploads"));
+const httpServer = createServer(app);
 // app.use(logger("tiny"));
 
 server.start().then(async res => {

@@ -3,7 +3,7 @@ import UserService from "../Service/userService";
 
 interface ISeeFollowersProps {
     userId: number
-    page: number
+    cursor: number
 }
 
 const resolvers = {

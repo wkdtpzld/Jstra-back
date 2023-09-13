@@ -3,7 +3,7 @@ import client from "../../client";
 
 interface ISeeFollowingProps {
     userId: number
-    page: number
+    cursor: number
 }
 
 const resolvers = {

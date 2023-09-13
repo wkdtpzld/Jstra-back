@@ -1,9 +1,9 @@
 export interface EditUserIProps {
-    firstName?: String;
-    lastName?: String;
-    username?: String;
-    email?: String;
-    password?: String;
+    firstName?: string;
+    lastName?: string;
+    username?: string;
+    email?: string;
+    password?: string;
     avatar: any;
-    bio: String;
+    bio: string;
 }

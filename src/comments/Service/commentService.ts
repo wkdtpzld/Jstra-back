@@ -2,7 +2,7 @@ import client from "../../client";
 import {Comment} from "@prisma/client";
 
 class CommentService {
-    async checkComment(id: number): Promise<Comment> {
+    async checkComment(id: number) {
         const comment = await client.comment.findUnique({
             where: {
                 id

@@ -8,7 +8,7 @@ const resolvers = {
     Mutation : {
         login: async(_, { username, password }) => {
             // find user with args.username
-            const user: Promise<User> = await client.user.findUnique({ where: {username} });
+            const user: any = await client.user.findUnique({ where: {username} });
             if (!user) {
                 return {
                     ok: false,

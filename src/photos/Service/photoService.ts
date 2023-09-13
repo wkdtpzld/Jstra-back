@@ -23,7 +23,7 @@ class PhotoService {
         }
     }
 
-    async checkPhoto(id: Number): Promise<Photo> {
+    async checkPhoto(id: number): Promise<any> {
         const photo = await client.photo.findUnique({
             where: {
                 id,
@@ -40,7 +40,7 @@ class PhotoService {
         return photo;
     }
 
-    async checkPhotoWithHashtag(id: Number, user: User) {
+    async checkPhotoWithHashtag(id: number, user: User) {
         const photo = await client.photo.findFirst({
             where: {
                 id,
